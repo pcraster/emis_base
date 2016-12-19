@@ -16,8 +16,9 @@ RUN set -x \
     && gosu nobody true \
     && apt-get purge -y --auto-remove ca-certificates wget
 
-RUN pip install --upgrade "pip==9.0.1"
-
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+
+COPY requirements.txt /
+RUN pip install --upgrade "pip==9.0.1" && pip install -r requirements.txt
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
