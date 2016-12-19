@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM python:3.5
 
 MAINTAINER Kor de Jong <k.dejong1@uu.nl>
 
