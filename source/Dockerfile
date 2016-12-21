@@ -4,7 +4,7 @@ MAINTAINER Kor de Jong <k.dejong1@uu.nl>
 
 ENV GOSU_VERSION 1.10
 RUN set -x \
-    && apt-get update && apt-get install -y --no-install-recommends ca-certificates wget && rm -rf /var/lib/apt/lists/* \
+    && apt-get update && apt-get upgrade && apt-get install -y --no-install-recommends ca-certificates wget && apt-get autoremove -y && rm -rf /var/lib/apt/lists/* \
     && dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
     && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
     && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc" \
@@ -13,8 +13,7 @@ RUN set -x \
     && gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
     && rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
     && chmod +x /usr/local/bin/gosu \
-    && gosu nobody true \
-    && apt-get purge -y --auto-remove ca-certificates wget
+    && gosu nobody true
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
